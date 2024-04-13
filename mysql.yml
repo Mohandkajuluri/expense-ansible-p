@@ -1,0 +1,22 @@
+- name: Disable mysql old version
+  ansible.builtin.sh: dnf module disable mysql -y
+
+- name: copy my sql repo file
+  ansible.builtin.template:
+    src: mysql.repo
+    dest: /etc/yum.repos.d/mysql.repo
+
+- name: install mysql community server
+  ansible.builtin.dnf:
+    name:  mysql-community-server
+    state: present
+
+- name: start mysql
+  ansible.builtin.systemd:
+    name: mysql
+    state: restarted
+    enabled: yes
+  
+- name: Load schema
+  ansible.builtin.sh: mysql_secure_installation --set-root-pass ExpenseApp@1
+
