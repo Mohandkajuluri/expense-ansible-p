@@ -2,49 +2,47 @@
   hosts: all
   become: yes
   tasks:
-  - name: Disable nodejs old version
-    ansible.builtin.sh: dnf module disable nodejs -y
 
-  - name: Enable nodejs:18 version
-    ansible.builtin.sh: dnf module enable nodejs:18 -y
+    - name: Enable nodejs:18 version
+      ansible.builtin.sh: dnf module enable nodejs:18 -y
 
-  - name: install nodejs
-    ansible.builtin.dnf:
-      name: nodejs
-      state: installed
+    - name: install nodejs
+      ansible.builtin.dnf:
+        name: nodejs
+        state: installed
 
-  - name: copy backend service file
-    ansible.builtin.template:
-      src: backend.service
-      dest: /etc/systemd/system/backend.service
+    - name: copy backend service file
+      ansible.builtin.template:
+        src: backend.service
+        dest: /etc/systemd/system/backend.service
 
-  - name: add application user
-    ansible.builtin.user:
-      name: expense
+    - name: add application user
+      ansible.builtin.user:
+        name: expense
 
-  - name: download and extract old app content
-    ansible.builtin.unarchive:
-      src: https://expense-artifacts.s3.amazonaws.com/backend.zip
-      dest: /tmp/backend.zip
-      remote_src: yes
+    - name: download and extract old app content
+      ansible.builtin.unarchive:
+        src: https://expense-artifacts.s3.amazonaws.com/backend.zip
+        dest: /tmp/backend.zip
+        remote_src: yes
 
-  - name: download dependencies
-    ansible.builtin.sh: npm install
-    args:
-        chdir: /app
+    - name: download dependencies
+      ansible.builtin.sh: npm install
+      args:
+          chdir: /app
 
-  - name: install mysql client
-    ansible.builtin.dnf:
-      name: mysql
-      state: present
+    - name: install mysql client
+      ansible.builtin.dnf:
+        name: mysql
+        state: present
 
-  - name: load schema
-    ansible.builtin.sh: mysql -h mysql-dev.mdkajuluri.com -uroot -pExpenseApp@1 < /app/schema/backend.sql
+    - name: load schema
+      ansible.builtin.sh: mysql -h mysql-dev.mdkajuluri.com -uroot -pExpenseApp@1 < /app/schema/backend.sql
 
-  - name: start backend service
-    ansible.builtin.systemd:
-      name: backend
-      start: started
-      daemon-reload: yes
+    - name: start backend service
+      ansible.builtin.systemd:
+        name: backend
+        start: started
+        daemon-reload: yes
 
 
