@@ -49,7 +49,7 @@
         state: present
 
     - name: load schema
-      ansible.builtin.shell: mysql -h mysql-dev.mdkajuluri.com -uroot -p{{MYSQL_ROOT_PASSWORD}} < /app/schema/backend.sql
+      ansible.builtin.shell: mysql -h mysql-dev.mdkajuluri.com -uroot -pExpenseApp@1 < /app/schema/backend.sql
 
     - name: start backend service
       ansible.builtin.systemd:
