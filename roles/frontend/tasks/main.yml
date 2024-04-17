@@ -13,10 +13,11 @@
     name: nginx
     state: restarted
     enabled: yes
-- name: App prerequisites
+
+- name: Import_Role App prerequisites
   ansible.builtin.import_role:
     name: common
-    tasks-from: app-prereq
+    tasks_from: app-prereq
   vars:
     app_dir: /usr/share/nginx/html
     component: frontend
