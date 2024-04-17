@@ -15,12 +15,12 @@
         name:  mysql-community-server
         state: present
 
-    - name: start mysql
+    - name: start mysql service
       ansible.builtin.systemd:
-        name: mysql
+        name: mysqld
         state: restarted
         enabled: yes
 
-    - name: Load schema
-      ansible.builtin.sh: mysql_secure_installation --set-root-pass ExpenseApp@1
+    - name: Set mysql password
+      ansible.builtin.shell: mysql_secure_installation --set-root-pass -pExpenseApp@1
 
