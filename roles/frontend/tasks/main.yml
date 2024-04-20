@@ -21,3 +21,9 @@
   vars:
     app_dir: /usr/share/nginx/html
     component: frontend
+
+- name: Import ELK Role - Filebeat
+  ansible.builtin.import_role:
+    name: elk
+    tasks_from: filebeat
+
