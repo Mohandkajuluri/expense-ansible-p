@@ -11,8 +11,8 @@
 
 - name: Copy Alert-Manager configuration
   ansible.builtin.template:
-    src: alert-manager
-    dest: /opt/alertmanager/alert-manager.yml
+    src: alertmanager
+    dest: /opt/alertmanager/alertmanager.yml
 
 - name: Restart Alert-Manager
   ansible.builtin.systemd:
