@@ -30,4 +30,4 @@ scrape_configs:
   - job_name: "ec2-nodes"
 
     static_configs:
-      - targets: ["172.31.31.84:9090"]
+      - targets: ["172.31.31.84:9100"]
